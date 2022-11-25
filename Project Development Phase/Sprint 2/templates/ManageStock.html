@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Stock</title>
+    <link rel="stylesheet" href="\static\css\bootstrap.min.css" />
+    <script src="\static\js\bootstrap.min.js"></script>
+    <script src="\static\js\popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background-color:aqua;">
+        <div class="container">
+            <a class="navbar-brand" href="Dashboard.html"><i class="fa fa-bars"></i> Dashboard</a>
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <form class="d-flex my-2 my-lg-0">
+                            <button class="nav-link active border-0"
+                                style="right:5px;width:fit-content;background-color: transparent;" type="submit"><i
+                                    class="fa fa-home"></i>Sales </button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form class="d-flex my-2 my-lg-0">
+                            <button class="nav-link active border-0"
+                                style="right:5px;width:fit-content;background-color: transparent;" type="submit"><i
+                                    class="fa fa-home"></i>Sales </button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form action="ManageStock" method="post" class="d-flex my-2 my-lg-0">
+                            <button class="nav-link active border-0"
+                                style="right:5px;width:fit-content;background-color: transparent;" type="submit"><i
+                                    class="fa fa-home"></i>Manage Stock </button>
+                        </form>
+                    </li>
+                </ul>
+                <form class="d-flex my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" style="right:5px;width:fit-content;"
+                        type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="row" style="margin-top: 5%;">
+        <div class="col">
+            <a class="btn btn-primary" href="#addStockDivTitle">Add</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" href="#updateStockDivTitle">Update</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" href="#deleteStockDivTitle">Delete</a>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center " style="padding:5%;width: 95vw;">
+        {% for stock,available in stocks %}
+        <div class="card mb-3 border-3"
+            style="max-width: 540px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://s3.jp-tok.cloud-object-storage.appdomain.cloud/imsfr/{{stock[5]}}"
+                        class="img-fluid rounded-start" alt="Card title">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <div style="float:right;">
+                            {% if available == 1 %}
+                            <div style="width:2vw;height:3vh;background-color: green; border-radius: 50px;"></div>
+                            {% elif available == 0 %}
+                            <div style="width:2vw;height:3vh;background-color: orange; border-radius: 50px;"></div>
+                            {% else %}
+                            <div style="width:2vw;height:3vh;background-color: red; border-radius: 50px;"></div>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title"><u><b>{{stock[0]}}</b> - {{stock[1]}}</u></h5>
+                        MRP : Rs. {{stock[4]}}<br />Manufacturing Date : {{stock[2]}}<br />Expiry Date :
+                        {{stock[3]}}<br /><small class="text-muted">Available : {{stock[7]}}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h1 id="addStockDivTitle" style="text-align-last:center;color:brown;font-family:fantasy;"><i>ADD THE STOCK</i></h1>
+    <center>
+        <div id="addStockDiv">
+            <form action="addStock" method="post" enctype="multipart/form-data">
+                <div class="border-3 mt-2 card text-start d-flex p-2 bd-highligh"
+                    style="width: 75rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+                    <div class="card-body" style="background-color:darkkhaki;">
+                        <label class="form-control-label" for="addproductName">Product Name</label>
+                        <input type="text" class="form-control" id="addproductName" name="addproductName">
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="manDate">Manufacturing Date</label>
+                                <input type="date" class="form-control" id="manDate" name="manDate">
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="expDate">Expiry Date</label>
+                                <input type="date" class="form-control" id="expDate" name="expDate">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="mrp">MRP</label>
+                                <input type="number" class="form-control" id="mrp" name="mrp">
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="qty">Quantity</label>
+                                <input type="number" class="form-control" id="qty" name="qty">
+                            </div>
+                        </div>
+
+                        <label class="form-control-label" for="addProductImage">Product</label>
+                        <input type="file" class="form-control" id="addProductImage" name="addProductImage">
+                        <div class="d-flex justify-content-center mt-2">
+                            <button type="submit" class="btn btn-primary">Add Stock</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <label>Make sure you have entered correct details</label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </center>
+
+    <br /><br /><br />
+    <h1 id="updateStockDivTitle" style="text-align-last:center;color:brown;font-family:fantasy;"><i>UPDATE THE STOCK</i></h1>
+    <center>
+        <div id="updateStockDiv">
+            <form action="updateStock" method="post">
+                <div class="border-3 mt-2 card text-start d-flex p-2 bd-highligh"
+                    style="width: 75rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+                    <div class="card-body" style="background-color:darkgoldenrod;">
+                        <div class="row">
+                            <form method="post" class="d-flex my-2 my-lg-0">
+                                <div class="col"><label class="form-control-label" for="pid">Product ID</label>
+                                    <input type="number" class="form-control" id="pid" name="pid">
+                                </div>
+                                <div class="col">
+                                    <button type="submit" action="/getStockDetails" class="btn" style="background-color:aqua;margin-top:21px;">Get
+                                        Stock Details</button>
+                                </div>
+                            </form>
+                            <div class="col">
+                                <img src="\static\images\Customer Problems.jpg" style="width:100px ;"
+                                    class="img-fluid rounded-start" alt="Card title">
+                            </div>
+                        </div>
+                        <label class="form-control-label" for="addproductName">Product Name</label>
+                        <input type="text" class="form-control" id="addproductName" name="addproductName"
+                        {% if getStock %} value="{{getStock['product']}}"   {% endif %}>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="manDate">Manufacturing Date</label>
+                                <input type="date" class="form-control" id="manDate" name="manDate"
+                                {% if getStock %} value="{{getStock['product']}}"   {% endif %}>
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="expDate">Expiry Date</label>
+                                <input type="date" class="form-control" id="expDate" name="expDate"
+                                {% if getStock %} value="{{getStock['product']}}"   {% endif %}>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="mrp">MRP</label>
+                                <input type="number" class="form-control" id="mrp" name="mrp"
+                                {% if getStock %} value="{{getStock['product']}}"   {% endif %}>
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="qty">Quantity</label>
+                                <input type="number" class="form-control" id="qty" name="qty"
+                                {% if getStock %} value="{{getStock['product']}}"   {% endif %}>
+                            </div>
+                        </div>
+
+                        <label class="form-control-label" for="addProductImage">Product</label>
+                        <input type="file" class="form-control" id="addProductImage" name="addProductImage"
+                        {% if getStock %} value="{{getStock['product']}}"   {% endif %}>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button type="submit" class="btn btn-primary">Update Stock</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <label>Make sure you have entered correct details</label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </center>
+
+    <br /><br /><br />
+    <h1 id="deleteStockDivTitle" style="text-align-last:center;color:brown;font-family:fantasy;"><i>REMOVE THE STOCK</i></h1>
+    <center>
+        <div id="deleteStockDiv">
+            <form action="deleteStock" method="post">
+                <div class="border-3 mt-2 card text-start d-flex p-2 bd-highligh"
+                    style="width: 75rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+                    <div class="card-body" style="background-color:darksalmon;">
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="pid">Product ID</label>
+                                <input type="number" class="form-control" id="pid" name="pid">
+                            </div>
+                            <div class="col">
+                                <form action="ManageStock" method="post" class="d-flex my-2 my-lg-0">
+                                    <button type="submit" class="btn" style="background-color:aqua;margin-top:21px;">Get
+                                        Stock Details</button>
+                                </form>
+                            </div>
+                            <div class="col">
+                                <img src="\static\images\Customer Problems.jpg" style="width:100px ;"
+                                    class="img-fluid rounded-start" alt="Card title">
+                            </div>
+                        </div>
+                        <label class="form-control-label" for="addproductName">Product Name</label>
+                        <input type="text" class="form-control" id="addproductName" name="addproductName">
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="manDate">Manufacturing Date</label>
+                                <input type="date" class="form-control" id="manDate" name="manDate">
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="expDate">Expiry Date</label>
+                                <input type="date" class="form-control" id="expDate" name="expDate">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="mrp">MRP</label>
+                                <input type="number" class="form-control" id="mrp" name="mrp">
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="qty">Quantity</label>
+                                <input type="number" class="form-control" id="qty" name="qty">
+                            </div>
+                        </div>
+
+                        <label class="form-control-label" for="addProductImage">Product</label>
+                        <input type="file" class="form-control" id="addProductImage" name="addProductImage">
+                        <div class="d-flex justify-content-center mt-2">
+                            <button type="submit" class="btn btn-primary">Delete Stock</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <label>Make sure you have choosen correct stock</label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </center>
+
+</body>
+
+</html>
