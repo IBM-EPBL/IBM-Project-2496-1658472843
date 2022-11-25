@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Stock</title>
+    <link rel="stylesheet" href="\static\css\bootstrap.min.css" />
+    <script src="\static\js\bootstrap.min.js"></script>
+    <script src="\static\js\popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background-color:aqua;">
+        <div class="container">
+            <a class="navbar-brand" href="Dashboard"><i class="fa fa-bars"></i> Dashboard</a>
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <form class="d-flex my-2 my-lg-0">
+                            <button class="nav-link active border-0"
+                                style="right:5px;width:fit-content;background-color: transparent;" type="submit"><i
+                                    class="fa fa-home"></i>Sales </button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form action="Overview" method="post" class="d-flex my-2 my-lg-0">
+                            <button class="nav-link active border-0"
+                                style="right:5px;width:fit-content;background-color: transparent;" type="submit"><i
+                                    class="fa fa-home"></i>Overview</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form action="ManageStock" method="post" class="d-flex my-2 my-lg-0">
+                            <button class="nav-link active border-0"
+                                style="right:5px;width:fit-content;background-color: transparent;" type="submit"><i
+                                    class="fa fa-home"></i>Manage Stock </button>
+                        </form>
+                    </li>
+                </ul>
+                <form class="d-flex my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" style="right:5px;width:fit-content;"
+                        type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="row" style="margin-top: 5%;">
+        <div class="col">
+            <a class="btn btn-primary" href="#addStockDivTitle">Add</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" href="#updateStockDivTitle">Update</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" href="#deleteStockDivTitle">Delete</a>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center " style="padding:5%;width: 95vw;">
+        {% for stock,available in stocks %}
+        <div class="card mb-3 border-3"
+            style="max-width: 540px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="https://s3.jp-tok.cloud-object-storage.appdomain.cloud/imsfr/{{stock[5]}}"
+                        class="img-fluid rounded-start" alt="Card title">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <div style="float:right;">
+                            {% if available == 1 %}
+                            <div style="width:2vw;height:3vh;background-color: green; border-radius: 50px;"></div>
+                            {% elif available == 0 %}
+                            <div style="width:2vw;height:3vh;background-color: orange; border-radius: 50px;"></div>
+                            {% else %}
+                            <div style="width:2vw;height:3vh;background-color: red; border-radius: 50px;"></div>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title"><u><b>{{stock[0]}}</b> - {{stock[1]}}</u></h5>
+                        MRP : Rs. {{stock[4]}}<br />Manufacturing Date : {{stock[2]}}<br />Expiry Date :
+                        {{stock[3]}}<br /><small class="text-muted">Available : {{stock[7]}}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h1 id="addStockDivTitle" style="text-align-last:center;color:brown;font-family:fantasy;"><i>ADD THE STOCK</i></h1>
+    <center>
+        <div id="addStockDiv">
+            <form action="addStock" method="post" enctype="multipart/form-data">
+                <div class="border-3 mt-2 card text-start d-flex p-2 bd-highligh"
+                    style="width: 75rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+                    <div class="card-body" style="background-color:darkkhaki;">
+                        <label class="form-control-label" for="addproductName">Product Name</label>
+                        <input type="text" class="form-control" id="addproductName" name="addproductName">
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="manDate">Manufacturing Date</label>
+                                <input type="date" class="form-control" id="manDate" name="manDate">
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="expDate">Expiry Date</label>
+                                <input type="date" class="form-control" id="expDate" name="expDate">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="mrp">MRP</label>
+                                <input type="number" class="form-control" id="mrp" name="mrp">
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="qty">Quantity</label>
+                                <input type="number" class="form-control" id="qty" name="qty">
+                            </div>
+                        </div>
+
+                        <label class="form-control-label" for="addProductImage">Product</label>
+                        <input type="file" class="form-control" id="addProductImage" name="addProductImage">
+                        <div class="d-flex justify-content-center mt-2">
+                            <button type="submit" class="btn btn-primary">Add Stock</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <label>Make sure you have entered correct details</label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </center>
+
+    <br /><br /><br />
+    <h1 id="updateStockDivTitle" style="text-align-last:center;color:brown;font-family:fantasy;"><i>UPDATE THE STOCK</i>
+    </h1>
+    <center>
+        <div id="updateStockDiv">
+            <form action="updateStock" method="post">
+                <div class="border-3 mt-2 card text-start d-flex p-2 bd-highligh"
+                    style="width: 75rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+                    <div class="card-body" style="background-color:darkgoldenrod;">
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="pid">Product ID</label>
+                                <input type="number" class="form-control" id="pid" name="pid" {% if getStock %}
+                                    value="{{getStock[0]}}" {% endif %}>
+                            </div>
+                            <div class="col">
+                                <input type="submit" class="btn" style="background-color:aqua;margin-top:21px;"
+                                    name="submit" value="Get Stock Details">
+                            </div>
+                            <div class="col">
+                                <img {% if getStock
+                                    %}src="https://s3.jp-tok.cloud-object-storage.appdomain.cloud/imsfr/{{getStock[5]}}"
+                                    {% elif not getStock %}
+                                    src="data:image/jpeg;base64,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"
+                                    {% endif %} style="width:100px ;" class="img-fluid rounded-start" alt="Card title">
+                            </div>
+                        </div>
+                        <label class="form-control-label" for="addproductName">Product Name</label>
+                        <input type="text" class="form-control" id="addproductName" name="addproductName" {% if getStock
+                            %} value="{{getStock[1]}}" {% endif %}>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="manDate">Manufacturing Date</label>
+                                <input type="date" class="form-control" id="manDate" name="manDate" {% if getStock %}
+                                    value="{{getStock[2]}}" {% endif %}>
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="expDate">Expiry Date</label>
+                                <input type="date" class="form-control" id="expDate" name="expDate" {% if getStock %}
+                                    value="{{getStock[3]}}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="mrp">MRP</label>
+                                <input type="number" class="form-control" id="mrp" name="mrp" {% if getStock %}
+                                    value="{{getStock[4]}}" {% endif %}>
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="qty">Quantity</label>
+                                <input type="number" class="form-control" id="qty" name="qty" {% if getStock %}
+                                    value="{{getStock[7]}}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <input type="submit" class="btn" style="background-color:aqua;margin-top:21px;"
+                                name="submit" value="Update Stock">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <label>Make sure you have entered correct details</label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </center>
+
+    <br /><br /><br />
+    <h1 id="deleteStockDivTitle" style="text-align-last:center;color:brown;font-family:fantasy;"><i>REMOVE THE STOCK</i>
+    </h1>
+    <center>
+        <div id="deleteStockDiv">
+            <form action="deleteStock" method="post">
+                <div class="border-3 mt-2 card text-start d-flex p-2 bd-highligh"
+                    style="width: 75rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+                    <div class="card-body" style="background-color:darksalmon;">
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="pid">Product ID</label>
+                                <input type="number" class="form-control" id="pid" name="pid" {% if getStock %}
+                                    value="{{getStock[0]}}" {% endif %}>
+                            </div>
+                            <div class="col">
+                                <input type="submit" class="btn" style="background-color:aqua;margin-top:21px;"
+                                    name="submit" value="Get Stock Details">
+                            </div>
+                            <div class="col">
+                                <img {% if getStock
+                                    %}src="https://s3.jp-tok.cloud-object-storage.appdomain.cloud/imsfr/{{getStock[5]}}"
+                                    {% elif not getStock %}
+                                    src="data:image/jpeg;base64,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"
+                                    {% endif %} style="width:100px ;" class="img-fluid rounded-start" alt="Card title">
+                            </div>
+                        </div>
+                        <label class="form-control-label" for="addproductName">Product Name</label>
+                        <input type="text" class="form-control" id="addproductName" name="addproductName" {% if getStock
+                            %} value="{{getStock[1]}}" {% endif %}>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="manDate">Manufacturing Date</label>
+                                <input type="date" class="form-control" id="manDate" name="manDate" {% if getStock %}
+                                    value="{{getStock[2]}}" {% endif %}>
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="expDate">Expiry Date</label>
+                                <input type="date" class="form-control" id="expDate" name="expDate" {% if getStock %}
+                                    value="{{getStock[3]}}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><label class="form-control-label" for="mrp">MRP</label>
+                                <input type="number" class="form-control" id="mrp" name="mrp" {% if getStock %}
+                                    value="{{getStock[4]}}" {% endif %}>
+                            </div>
+                            <div class="col">
+                                <label class="form-control-label" for="qty">Quantity</label>
+                                <input type="number" class="form-control" id="qty" name="qty" {% if getStock %}
+                                    value="{{getStock[7]}}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <input type="submit" class="btn" style="background-color:aqua;margin-top:21px;"
+                                name="submit" value="Delete Stock">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <label>Make sure you have choosen correct stock</label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </center>
+
+</body>
+
+</html>
